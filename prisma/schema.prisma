@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:3Ks5EduO1ra9ernv@34.198.171.38:5432/clientes?schema=syncconnect"
+}
+
+model agendamentos {
+  data_agendamento DateTime? @db.Date
+  hora_agendamento DateTime? @db.Time(6)
+  cliente_nome     String?   @db.VarChar(100)
+  cliente_whatsapp String?   @db.VarChar(20)
+  servico          String?   @db.VarChar(100)
+  valor            Decimal?  @db.Decimal(10, 2)
+  status           String?   @default("CONFIRMADO") @db.VarChar(20)
+  google_event_id  String?   @db.VarChar(255)
+  criado_em        DateTime? @default(now()) @db.Timestamp(6)
+  id               Int       @id @default(autoincrement())
+}
+
+model servicos {
+  id              Int      @id @default(autoincrement())
+  nome            String?  @db.VarChar(50)
+  preco           Decimal? @db.Decimal(10, 2)
+  duracao_minutos Int?
+}
+
+model sessao_bot {
+  whatsapp_id         String    @id @db.VarChar(20)
+  nome_cliente        String?   @db.VarChar(100)
+  etapa_atual         String?   @db.VarChar(50)
+  dados_temp          String?
+  horarios_ofertados  String?
+  ultima_interacao    DateTime? @default(now()) @db.Timestamp(6)
+  calendar_id         String?   @db.VarChar
+  summary_event       String?   @db.VarChar
+  corte_escolhido     String?   @db.VarChar(100)
+  data_inicio_servico DateTime? @db.Timestamptz(6)
+  data_fim_servico    DateTime? @db.Timestamptz(6)
+  descricao_servico   String?   @db.VarChar
+  dia_escolhido       DateTime? @db.Date
+}
+

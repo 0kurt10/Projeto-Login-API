@@ -1,16 +1,24 @@
-import express, { response } from "express";
+import express from "express";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const app = express();
+app.use(express.json());
 
 const users = [];
 
-app.post("/user", (req, res) => {
-  console.log(req);
+//post seria para crição de usuarios
 
-  res.send("teste");
+app.post("/user", (req, res) => {
+  users.push(req.body);
+
+  res.send(req.body);
 });
 
-app.get("/user", (req, res) => res.send("Tudo certo!"));
+//
+
+app.get("/user", (req, res) => res.json(users));
 
 // request, response
 
@@ -21,6 +29,6 @@ app. +
 tipo de rota  + / metodo HTTP
 
 Endereço
-dns / nome da roda
+dns / nome da rota
 
 */
